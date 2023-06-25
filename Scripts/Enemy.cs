@@ -32,6 +32,9 @@ public class Enemy : MonoBehaviour
             Weapon weapon = other.gameObject.GetComponent<Weapon>();
             hp -= weapon.damage;
             if(hp <= 0) {
+                if(gameObject.tag == "Boss") {
+                    GameManager.instance.SetGameOver();
+                }
                 // Enemy 삭제
                 Destroy(gameObject);
                 // Instantiate - 새로운 객체 만들기

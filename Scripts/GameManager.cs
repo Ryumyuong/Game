@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI text;
     private int coin = 0;
 
+    // [SerializeField]와 반대로 숨기는 기능
+    [HideInInspector]
+    public bool isGameOver = false;
+
     // start보다 더 빨리 호출되는 메소드
     void Awake() {
         if (instance == null) {
@@ -29,6 +33,16 @@ public class GameManager : MonoBehaviour
             if(player != null) {
                 player.Upgrade();
             }
+        }
+    }
+
+    // bool istrue를 이용하면 성공, 실패 구분 가능
+    public void SetGameOver() {
+        isGameOver = true;
+        
+        EnemySpawner enemySpawner = FindObjectOfType<EnemySpawner>();
+        if(enemySpawner != null) {
+            enemySpawner.StopEnemyRoutine();
         }
     }
 }
