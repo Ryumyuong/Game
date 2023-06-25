@@ -22,5 +22,13 @@ public class GameManager : MonoBehaviour
     public void IncreaseCoin() {
         coin += 1;
         text.SetText(coin.ToString());
+
+        if(coin % 10 == 0) {
+            // project 내에서 객체 찾기
+            Player player = FindObjectOfType<Player>();
+            if(player != null) {
+                player.Upgrade();
+            }
+        }
     }
 }

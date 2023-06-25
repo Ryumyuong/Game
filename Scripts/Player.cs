@@ -10,7 +10,8 @@ public class Player : MonoBehaviour
 
     // GameObject 설정
     [SerializeField]
-    private GameObject weapon;
+    private GameObject[] weapons;
+    private int weaponIndex = 0;
 
     // unity의 shootTransform을 바로 사용 가능
     [SerializeField]
@@ -57,7 +58,7 @@ public class Player : MonoBehaviour
     void Shoot() {
         // Time.time - 게임이 시작된 이후로 현재까지 흐른 시간
         if(Time.time - lastShotTime > shootInterval) {
-            Instantiate(weapon, shootTransform.position, Quaternion.identity);
+            Instantiate(weapons[weaponIndex], shootTransform.position, Quaternion.identity);
             lastShotTime = Time.time;
         }
     }
@@ -68,6 +69,13 @@ public class Player : MonoBehaviour
         } else if(other.gameObject.tag == "Coin") {
             GameManager.instance.IncreaseCoin();
             Destroy(other.gameObject);
+        }
+    }
+
+    public void Upgrade() {
+        weaponIndex += 1;
+        if(weaponIndex >= weapons.Length) {
+            weaponIndex = weapons.Length - 1;
         }
     }
 }
