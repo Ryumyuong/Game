@@ -7,6 +7,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private GameObject[] enemies;
 
+    [SerializeField]
+    private GameObject boss;
+
     // 각 x값 배열 생성
     private float[] arrPosX = {-2.2f, -1.1f, 0f, 1.1f, 2.2f};
 
@@ -41,6 +44,13 @@ public class EnemySpawner : MonoBehaviour
                 moveSpeed += 2;
             }
 
+            if(enemyIndex >= enemies.Length) {
+                SpawnBoss();
+                // 레벨 1이 다시 나옴
+                enemyIndex = 0;
+                moveSpeed = 5f;
+            }
+
             yield return new WaitForSeconds(spawnInterval);
         }
     }
@@ -60,5 +70,9 @@ public class EnemySpawner : MonoBehaviour
         Enemy enemy = enemyObject.GetComponent<Enemy>();
         enemy.SetMoveSpeed(moveSpeed);
         
+    }
+
+    void SpawnBoss() {
+        Instantiate(boss, transform.position, Quaternion.identity);
     }
 }
