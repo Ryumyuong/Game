@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     // using TMPro를 설정해야 사용 가능
     private TextMeshProUGUI text;
+
+    [SerializeField]
+    private GameObject gameOverPanel;
+
     private int coin = 0;
 
     // [SerializeField]와 반대로 숨기는 기능
@@ -27,7 +32,7 @@ public class GameManager : MonoBehaviour
         coin += 1;
         text.SetText(coin.ToString());
 
-        if(coin % 10 == 0) {
+        if(coin % 30 == 0) {
             // project 내에서 객체 찾기
             Player player = FindObjectOfType<Player>();
             if(player != null) {
@@ -44,5 +49,17 @@ public class GameManager : MonoBehaviour
         if(enemySpawner != null) {
             enemySpawner.StopEnemyRoutine();
         }
+        // 지정한 시간 뒤에 메소드 실행
+        Invoke("showGameOverPanel", 1f);
+    }
+
+    void showGameOverPanel() {
+        // gameOverPanel 활성화
+        gameOverPanel.SetActive(true);
+    }
+
+    public void PlayAgain() {
+        // using UnityEngine.SceneManagement 추가 Scene 다시 로딩
+        SceneManager.LoadScene("SampleScene");
     }
 }
